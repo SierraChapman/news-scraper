@@ -1,22 +1,32 @@
+const axios = require("axios");
+const cheerio = require("cheerio");
 const db = require("../models");
 
 // helper functions
 function scrapeWashingtonPost() {
   const homepage = "https://www.washingtonpost.com/";
-  const articles = [];
-
   console.log(`Scraping articles from ${homepage}...`);
 
-  return articles;
+  return axios.get(homepage)
+    .then(response => {
+      const articles = [];
+      const $ = cheerio.load(response.data);
+      console.log($(".font--headline").length);
+
+      return articles;
+    })
+    .catch(err => console.log(err));
 }
 
 // controller
 module.exports = {
   findAll: function(req, res) {
-    const washPostArticles = scrapeWashingtonPost();
-    console.log(washPostArticles);
+    scrapeWashingtonPost()
+      .then(articles => {
+        console.log(articles);
 
-    db.Article.find({})
+        return db.Article.find({});
+      })
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(500).json(err));
   },
