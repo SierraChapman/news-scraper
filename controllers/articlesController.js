@@ -15,10 +15,11 @@ function scrapeWashingtonPost() {
 
       for (let i = 0; i < $headlines.length; i++) {
         const $headline = $headlines.eq(i);
-        
+
         const headline = $headline.text();
+        const url = $headline.find("a").attr("href");
         
-        articles.push({headline});
+        articles.push({headline, url});
       }
 
       return articles;
