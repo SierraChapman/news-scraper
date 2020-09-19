@@ -21,7 +21,10 @@ function scrapeWashingtonPost() {
         const url = $headline.find("a").attr("href");
         const summary = $headline.parent().siblings(".bb").text();
         
-        articles.push({ headline, byline, url, summary });
+        // articles must have headline and url at a minimum
+        if (headline && url) {
+          articles.push({ headline, byline, url, summary });
+        }
       }
 
       return articles;
