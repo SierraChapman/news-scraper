@@ -11,7 +11,15 @@ function scrapeWashingtonPost() {
     .then(response => {
       const articles = [];
       const $ = cheerio.load(response.data);
-      console.log($(".font--headline").length);
+      const $headlines = $(".font--headline");
+
+      for (let i = 0; i < $headlines.length; i++) {
+        const $headline = $headlines.eq(i);
+        
+        const headline = $headline.text();
+        
+        articles.push({headline});
+      }
 
       return articles;
     })
