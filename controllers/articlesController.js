@@ -50,7 +50,14 @@ module.exports = {
     // proceed after old and new articles have been retrieved
     Promise.all([newArticlesPromise, oldArticlesPromise]).then(([newArticles, articleUrls]) => {
       // filter out articles that are already saved
-      let articlesToSave = newArticles.filter(article => !articleUrls[article.url]);
+      let articlesToSave = newArticles.filter(article => {
+        if (articleUrls[article.url]) {
+          return false;
+        } else {
+          articleUrls[article.url] = true;
+          return true;
+        }
+      });
       // add missing fields
       articlesToSave = articlesToSave.map(article => ({ ...article, date: Date.now(), comments: [] }));
       // save
