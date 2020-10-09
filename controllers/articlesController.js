@@ -12,7 +12,9 @@ function scrapeWashingtonPost() {
     const $ = cheerio.load(response.data);
     const $headlines = $(".font--headline");
 
-    for (let i = 0; i < $headlines.length; i++) {
+    // save articles from top of page last in the database
+    // so that most recent and important articles are at the end
+    for (let i = $headlines.length - 1; i >= 0; i--) {
       const $headline = $headlines.eq(i);
 
       const headline = $headline.text();
