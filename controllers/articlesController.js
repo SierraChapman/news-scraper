@@ -35,7 +35,7 @@ function scrapeWashingtonPost() {
 module.exports = {
   findAll: function (req, res) {
     const newArticlesPromise = scrapeWashingtonPost();
-    const oldArticlesPromise = db.Article.find({}).then(articleData => {
+    const oldArticlesPromise = db.Article.find({}, "url").then(articleData => {
       // make an object containing each url in the database
       const articleUrls = {};
       articleData.forEach(article => {
@@ -55,9 +55,9 @@ module.exports = {
       return db.Article.insertMany(articlesToSave);
     }).then(savedArticles => {
       console.log(`Saved ${savedArticles.length} new articles.`);
-      return db.Article.find({});
+      return db.Article.find({}, "_id headline byline summary comments");
     }).then(dbModel => {
-      return res.json(dbModel);
+      return res.json(dbModel.map(({_id, headline, byline, summary, comments}) => ({_id, headline, byline, summary, commentCount: comments.length})));
     }).catch(err => {
       return res.status(500).json(err)
     });
