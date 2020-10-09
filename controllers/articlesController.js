@@ -18,7 +18,7 @@ function scrapeWashingtonPost() {
       const $headline = $headlines.eq(i);
 
       const headline = $headline.text();
-      const byline = $headline.parent().siblings(".byline").text();
+      const byline = $headline.parent().siblings(".byline").text().replace(/[0-9]+\s[a-z]+\sago/, ""); // gets rid of timestamp in byline, e.g. 28 minutes ago
       const url = $headline.find("a").attr("href");
       const summary = $headline.parent().siblings(".bb").text();
 
