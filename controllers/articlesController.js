@@ -71,4 +71,11 @@ module.exports = {
       return res.status(500).json(err)
     });
   },
+  find: function(req, res) {
+    db.Article.findById(req.params._id).then(dbModel => {
+      res.json(dbModel);
+    }).catch(err => {
+      return res.status(500).json(err)
+    });
+  }
 };
