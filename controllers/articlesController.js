@@ -64,9 +64,9 @@ module.exports = {
       return db.Article.insertMany(articlesToSave);
     }).then(savedArticles => {
       console.log(`Saved ${savedArticles.length} new articles.`);
-      return db.Article.find({}, "_id headline byline summary comments");
+      return db.Article.find({}, "_id headline byline summary commentCount");
     }).then(dbModel => {
-      return res.json(dbModel.map(({_id, headline, byline, summary, comments}) => ({_id, headline, byline, summary, commentCount: comments.length})));
+      return res.json(dbModel);
     }).catch(err => {
       return res.status(500).json(err)
     });

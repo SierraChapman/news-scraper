@@ -13,6 +13,7 @@ const articleSchema = new Schema({
     date: { type: Date, default: Date.now },
     id: Number,
   }],
+  commentCount: { type: Number, default: 0 },
 });
 
 const Article = mongoose.model("Article", articleSchema);
