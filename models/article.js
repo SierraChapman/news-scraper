@@ -10,7 +10,8 @@ const articleSchema = new Schema({
   comments: [{
     author: String,
     body: String,
-    date: { type: Date, default: Date.now }
+    date: { type: Date, default: Date.now },
+    id: Number,
   }],
 });
 
